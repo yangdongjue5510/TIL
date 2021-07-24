@@ -25,6 +25,7 @@ def quickSelet(L,k):
     else: return p
 ```
 > Worst case?
+
 p를 첫 원소로 했는데 가장 큰 원소가 맨 끝 원소일 때.
 T(n) = T(n-1)+n
      = 1+2+3+...+n = n(n+1) / 2  -> O(n^2)
