@@ -1,6 +1,7 @@
 # TIL
 
-##Today I Learned..
+
+## Today I Learned..
 
 > 매일 공부한 내용을 카테고리로 나눠 정리하는 레포지토리입니다.
 
