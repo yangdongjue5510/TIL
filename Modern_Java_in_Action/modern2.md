@@ -1,3 +1,11 @@
+---
+title: 람다표현식
+date: 2021-07-30 09:25:25
+tags:
+category:
+    - Java
+    - Modern Java in Action
+---
 ## **a. 람다란 무엇인가?**
 
 람다 표현식은 메서드로 전달할 수 있는 익명 함수를 단순화한 것이다!
@@ -9,7 +17,7 @@
 
 커스텀 Comparator 객체 구현 예시로 람다의 힘을 느껴보지!
 
-```{.java}
+```java
 Comparator<Apple> byWeight = new Comparator<Apple> {
     public int compare(Apple a1, Apple a2) {
         return a1.getWeight().compareTo(a2.getWeight());
@@ -37,7 +45,7 @@ Comparator<Apple> byWeight = (Apple a1, Apple a2) -> a1.getWeight().compareTo(a2
 
 아래 다양한 람다 사례를 보며 람다 표현식을 익혀보자!
 
-```
+```java
 (List<String> list)-> list.isEmpty()
 ()->new Apple(10)
 (Apple a)-> {
@@ -58,7 +66,7 @@ Comparator<Apple> byWeight = (Apple a1, Apple a2) -> a1.getWeight().compareTo(a2
 
 (d 항목에서 더 자세히 다뤄본다.)
 
-```
+```java
 public interface Predicate<T> {
     boolean test (T t);
 }
@@ -89,7 +97,7 @@ _#인터페이스는 디폴트 메서드를 포함할 수 있다. 디폴트 메�
 
 (함수형 인터페이스의 추상 메서드 시그니처를 함수 디스크립터라고 부른다.)
 
-```
+```java
 public void process(Runnable r) {
     r.run();
 }
@@ -120,7 +128,7 @@ _@FunctioalInerface는 무엇일까?_
 
 _(다음 예시는 try with resources 구문을 사용했다. 자원을 명시적으로 닫지 않아도 된다.)_
 
-```
+```java
 public String processFile() throws IOException {
     try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
         return br.readLine();
@@ -150,7 +158,7 @@ processFile 의 시그니처와 일치하는 함수형 인터페이스를 만들
 
 BufferedReaderProcessor라고 정의해 인터페이스를 구현하고, processFile 메서드의 인수로 전달해보자!
 
-```
+```java
 @FunctionalInterface
 public interface BufferReaderProcessor {
     String process(BufferedReader b) throws IOException;
@@ -169,7 +177,7 @@ public String processFile(BufferedReaderProcessor p) throws IOException {
 
 즉 람다로 구현된 다양한 요구조건들을 받는 그릇이 준비된 셈이다.
 
-```
+```java
 public String processFile(BufferedReaderProcessor p) throws IOEXception {
     try (BufferedReader br = new BufferedReader(new FileReader("data.txt"))) {
         return p.process(br);
@@ -181,7 +189,7 @@ public String processFile(BufferedReaderProcessor p) throws IOEXception {
 
 이제 람다를 이용해서 다양한 동작을 processFile 메서드로 전달할 수 있다.
 
-```
+```java
 String oneLine = processFile(BufferedReader br) -> br.readLine());
 
 String twoLine = processFile(BufferedReader br) -> br.readLine()+br.readLine();
@@ -199,7 +207,7 @@ java.util.function.Predicate<T> 인터페이스는 test라는 추상 메소드�
 
 test는 T 객체를 인수로 받아 불리언을 반환한다!
 
-```
+```java
 @FunctionalInterface
 public interface Predicate<T> {
     boolean test(T t);
@@ -225,7 +233,7 @@ accept는 T 객체를 인수로 받아 어떤 동작을 수행하고 반환값�
 
 for each를 Consumer로 구현한 사례를 보자
 
-```
+```java
 @FunctionalInterface
 public interface Consumer<T> {
     void accept(T t);
@@ -249,7 +257,7 @@ apply는 T를 인수로 받아 R 객체로 반환한다.
 
 String 리스트를 인수로 받아, 각 String 길이를 포함하는 Integer 리스트로 변환하는 map메서드 구현 사례를 보자!
 
-```
+```java
 @FunctionalInterface
 public interface Function<T, R> {
     R apply(T t);
@@ -275,7 +283,7 @@ List<Integer> l = map(Arrays.asList("lambdas", "in", "action"), (String s) -> s.
 
 아래는 IntPredicate를 활용한 예시이다.
 
-```
+```java
 public interface IntPredicate {
     boolean test(int i);
 }
@@ -303,7 +311,7 @@ _복잡하긴 하다._
 
 예외를 처리하는 함수형 인터페이스를 선언하는 예시를 보자.
 
-```
+```java
 @FunctionalInterface
 public interface BufferedReaderProcessor {
     String process(BufferedReader b) throws IOException;
@@ -316,7 +324,7 @@ BufferedReaderProcessor p = (BufferedReader br) -> br.readLine();
 
 이럴 때는 람다를 try catch로 감싸는 방법을 사용해보자!!
 
-```
+```java
 Function<BufferedReader, String> f = (BufferedReader b) -> {
     try {
         return b.readLine();
@@ -341,7 +349,7 @@ Function<BufferedReader, String> f = (BufferedReader b) -> {
 
 예시로 이해해보자.
 
-```
+```java
 public <T> void filter(inventory, Predicate<T> p){
     if(p.test()){
         inventory.add(p);
@@ -367,7 +375,7 @@ List<Apple> heavierThan150g = filter(inventory, (Apple apple) -> apple.getWeight
 
 물론 이렇게 활용되기 위해서는 해당 추상 메서드에 호환이 되어야 한다.(시그니처가 호환되어야 할 것이다.)
 
-```
+```java
 Callable<Integer> c = () -> 43;
 PrivilegedAction<Integer< p = () -> 43;
 ```
@@ -382,7 +390,7 @@ _#특별한 void 호환 규칙_
 
 List의 add는 T를 받아 boolean을 반환하지만 T를 받는 void 형식에도 사용 가능하다.
 
-```
+```java
 // Consumer는 void 반환값을 가지면, 일반 표현식이 와도 괜찮다!
 Consumer<String> b = s -> list.add(s);
 ```
@@ -391,7 +399,7 @@ Consumer<String> b = s -> list.add(s);
 
 람다 표현식의 파라미터 형식을 생략해도 컴파일러가 추론할 수 있다.
 
-```
+```java
 List<Apple> greenApple = filter(inventory, apple -> GREEN.equals(apple.getColor()));
 ```
 
@@ -403,7 +411,7 @@ apple이 어떤 형식인지 말 안해줘도, filter 메소드을 통해 추론
 
 람다 표현식에 자유 변수(파라미터로 넘겨진 변수가 아닌 외부에 정의된 변수)를 활용할 수도 있다!
 
-```
+```java
 int portNumber =1337;
 Runnable r = () -> System.out.println(portNumber);
 ```
@@ -416,7 +424,7 @@ Runnable r = () -> System.out.println(portNumber);
 
 다음 예시는 컴파일 에러를 일으킨다.
 
-```
+```java
 int portNum = 1337;
 Runnable r = () -> System.out.println(portNum);
 portNum=31338; //error
@@ -441,7 +449,7 @@ _그렇다면 왜 제약이_ _있는 건가?_
 
 때로는 람다보다 메서드 참조가 더 가독성이 좋을 수 있다.
 
-```
+```java
 //람다 표현식
 inventory.sort((Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight()));
 
@@ -497,7 +505,7 @@ ClassName::new처럼 클래스명과 new 키워드를 이용해서 기존 생성
 
 다음 예시들은 다양한 시그니처에 따른 생성자 참조를 보여준다.
 
-```
+```java
 //람다 스타일, new Apple() 이라는 생성자가 있을 경우
 Supplier<Apple> c1 = () -> new Apple();
 Apple a1 = c1.get();
@@ -521,7 +529,7 @@ BiFunction<Color, Integer, Apple> c3 = Apple::new
 
 이렇게 인스턴스화하지 않고도 생성자에 접근할 수 있는 기능을 다양한 상황에서 응용해보자.
 
-```
+```java
 //사과의 무게 정보와 함께 Apple 생성자 호출
 List<Integer> weights = Arrays.asList(7, 3, 4, 10);
 List<Apple> apples = map(weights, Apple::new);
@@ -538,7 +546,7 @@ public List<Apple> map(List<Integer> list, Function<Integer, Apple> f) {
 
 만약 인수가 세개 이상을 필요로 하는 생성자의 생성자 참조는 어떻게 해야 할지 알아보자!
 
-```
+```java
 public interface TriFunction<T, U, V, R> {
     R apply(T t, U u, V v);
 }
@@ -552,7 +560,7 @@ TriFunction<Integer, Integer, Integer, Color> colorFactory = Color::new
 
 우리가 얻을 최종 결과물은 다음과 같다.
 
-```
+```java
 inventory.sort(comparing(Apple::getWeight));
 ```
 
@@ -564,7 +572,7 @@ inventory.sort(comparing(Apple::getWeight));
 
 일단 sort 메소드의 시그니처를 알아보자
 
-```
+```java
 void sort(Comparator<? super E> c)
 ```
 
@@ -578,7 +586,7 @@ void sort(Comparator<? super E> c)
 
 그렇다면 우리는 맨 처음 코드를 다음과 같이 바꿀 수 있다.
 
-```
+```java
 public class AppleComparator implements Comparator<Apple> {
     public int compare(Apple a1, Apple a2){
         return a1.getWeight().compareTo(a2.getWeight());
@@ -593,7 +601,7 @@ inventory.sort(new AppleComparator());
 
 하지만 한번만 사용할 Comparator를 1단계에서 처럼 구현하는 거 보다는 익명 클래스를 이용하는게 나아 보인다.
 
-```
+```java
 inventory.sort(new Comparator<Apple>() {
     public int compare(Apple a1, Apple a2){
         return a1.getWeight().compareTo(a2.getWeight());
@@ -611,7 +619,7 @@ Comparator의 함수 디스크립터(추상 메서드의 시그니처)는 (T, T)
 
 우리의 경우는 사과를 사용하므로, (Apple, Apple) -> int로 표현할 수 있다.
 
-```
+```java
 inventory.sort((Apple a1, Apple a2) -> a1.getWeight().compareTo(a2.getWeight()));
 
 inventory.sort((a1, a2) -> a1.getWeight().compareTo(a2.getWeight()));
@@ -625,7 +633,7 @@ Comparator는 Comparable 키를 추출해서 Comparator 객체로 만드는 Func
 
 이 comparing 메소드를 활용해서 더 간단하게 작성할 수 있다.
 
-```
+```java
 import static java.util.Comparator.comparing;
 inventory.sort(comparing(apple -> apple.getWeight()));
 ```
@@ -638,7 +646,7 @@ _람다표현식은 사과를 비교하는 데 사용할 키를 어떻게 추출
 
 (앞서 본 거 처럼, java.util.Comparator.comparing은 정적으로 임포트했다고 가정하자)
 
-```
+```java
 inventory.sort(comparing(Apple::getWeight));
 ```
 
@@ -656,7 +664,7 @@ inventory.sort(comparing(Apple::getWeight));
 
 이전에 g-3에서 알아봤듯이, 정적메서드 Comparator.comparing을 이용해서 비교에 사용될 키를 추출하는 Function 기반의 추출하는 Function 기반의 Comparator를 반환할 수 있다.
 
-```
+```java
 Comparator<Apple> c = Comparator.comparing(Apple::getWeight);
 ```
 
@@ -668,7 +676,7 @@ reverse 디폴트 메소드에 제공되어 있으니 써먹으면 된다.
 
 (reverse 메소드는 비교자의 순서를 뒤바꾸는 역할을 한다.)
 
-```
+```java
 inventory.sort(comparing(Apple::getWeight).reversed());
 ```
 
@@ -682,7 +690,7 @@ inventory.sort(comparing(Apple::getWeight).reversed());
 
 다음 예시는 무게로 내림차순 정렬을 하고, 만약 같은 무게를 가진 경우, 생산 국가로 다시 정렬하는 예시이다.
 
-```
+```java
 inventory.sort(comparing(Apple::getWeight).reversed().thenComparing(Apple::getCountry));
 ```
 
@@ -700,7 +708,7 @@ negate를 붙이면 앞서 진행됐던 프레디케이트를 반전시킬 수 �
 
 쉽게 말해 여집합을 생각하면 편할 것이다.
 
-```
+```java
 Predicate<Apple> notRedApple = redApple.negate();
 ```
 
@@ -710,7 +718,7 @@ Predicate<Apple> notRedApple = redApple.negate();
 
 and는 두 람다를 조합할 수 있다.
 
-```
+```java
 Predicate<Apple> redAndHeavyApple = redApple.and(apple -> apple.getWeight() > 150);
 ```
 
@@ -720,7 +728,7 @@ Predicate<Apple> redAndHeavyApple = redApple.and(apple -> apple.getWeight() > 15
 
 or는 다양한 조건을 만들어 낼 수 있다. 예시로 보면 이해가 빠를 것이다.
 
-```
+```java
 Predicate<Apple> redAndHeavyAppleOrGreen =
     redApple.and(apple -> apple.getWeight() > 150).or(apple -> GREEN.equals(a.getColor()));
 ```
@@ -733,7 +741,7 @@ Function 인터페이스는 andThen과 compose 두가지 메소드를 제공한�
 
 andThen 메소드는 두 개의 Function 인터페이스를 받아, 하나의 인터페이스의 결과물을 다른 인터페이스의 입력값으로 전달하는 역할을 한다.
 
-```
+```java
 Function<Integer, Integer> f = x -> x+1;
 Function<Integer, Integer> g = x -> x*2;
 Function<Integer, Integer> h = f.andThen(g);
@@ -746,7 +754,7 @@ compose 메소드는 인수로 주어진 함수를 먼저 하고, 그 결과를 
 
 이 말이 어렵게 느껴지겠지만 예시로 살펴보자.
 
-```
+```java
 Function<Integer, Integer> f = x -> x+1;
 Function<Integer, Integer> g = x -> x*2;
 Function<Integer, Integer> h = f.compose(g);
