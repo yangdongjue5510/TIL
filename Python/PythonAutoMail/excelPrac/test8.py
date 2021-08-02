@@ -12,6 +12,7 @@ print()
 
 cols = data['A:B']
 for col in cols:
+    print(col)
     for cell in col:
         print(cell.value)
 

@@ -6,7 +6,7 @@ import re #정규 표현식을 위한 패키지
 SMTP_SERVER = 'smtp.gmail.com'
 SMTP_PORT = 465
 SMTP_USER = 'djwhy5510@gmail.com'
-SMTP_PASSWORD = 'diddid35165510'
+SMTP_PASSWORD = '' #input here your pw.
 
 def send_mail(name, addr, subject, contents, attachment=None):
     if not re.match('(^[a-zA-Z0-9_.-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)', addr):#정규표현식을 활용한 이메일 검증
@@ -23,11 +23,19 @@ def send_mail(name, addr, subject, contents, attachment=None):
     #making mail
     text = MIMEText(contents, _charset='utf-8') #make our text to MIMEText instance.
     msg.attach(text)
+    
     if attachment:
         from email.mime.base import MIMEBase
         from email import encoders
         file_data = MIMEBase('application', 'octect-stream') # attachment definition (normal file)
         file_data.set_payload(open(attachment, 'rb').read()) # load attachment
+        encoders.encode_base64(file_data) #encode attachment
+        
+        import os
+        filename = os.path.basename(attachment) #findout attachment file's name from path
+        file_data.add_header('Content-Disposition', 'attachment; filename="'+filename+'"') #give file name
+        msg.attach(file_data)
+    
     #send mail
     smtp = smtplib.SMTP_SSL(SMTP_SERVER, SMTP_PORT)
     smtp.login(SMTP_USER, SMTP_PASSWORD)
