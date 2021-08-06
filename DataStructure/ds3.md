@@ -1,3 +1,11 @@
+---
+title: 3. 양방향리스트
+date: 2021-07-28 20:00:09
+tags:
+category:
+    - Computer Science
+    - Data Structure
+---
 ## **a. 왜 양방향 연결 리스트가 필요한가?**
 
 한방향 연결 리스트는 다음 노드를 연결하는 링크만 존재, 이전 노드를 알려면 head부터 다시 탐색을 해야된다...
@@ -11,11 +19,11 @@
 3.  첫 노드(head)는 항성 dummy 노드가 되어야 함  
     (dummy 노드는 리스트의 처음을 구분해주는 마커 기능을 하는 특별한 노드다.)
 
-![img](../img/doublylinkedlist.png)
+![img](/img/ds/doublylinkedlist.png)
 
 ## **b. 노드 클래스**
 
-```
+```python
 class Node:
     def __init__(self, key=None):
         self.key = key
@@ -27,7 +35,7 @@ class Node:
 
 ## **c. 양방향 연결 리스트 클래스**
 
-```
+```python
 class DoublyLinkedList:
     def __init__(self):
         self.head = Node()
@@ -47,7 +55,7 @@ class DoublyLinkedList:
 -   조건 1 : a와 b가 동일하거나 a 다음에 b가 나타나야 함
 -   조건 2 : head 노드(dummy)와 x는 a와 b 사이에 포함되면 안됨.
 
-```
+```python
 def splice(self, a, b, x):
     if a == None or b == None or x == None :
         return
@@ -75,7 +83,7 @@ isEmpty() : 빈 리스트면 True, 아니면 False
 
 first(), last() : 처음과 마지막 노드를 리턴, 빈 리스트면 None 리턴
 
-```
+```python
 def search(self, key):
     v = self.head
     while v.next !=self.head:
@@ -86,21 +94,21 @@ def search(self, key):
 
 def isEmpty(self):
     v = self.head
-    if v.next ==None:
+    if v.next ==self.head:
         return True
     else:
         return False
         
 def first(self):
     v = self.head
-    if v.next!=None:
+    if v.next!=self.head:
         return v.next
     else:
         return None
         
 def last(self):
     v = self.head
-    if v.prev != None:
+    if v.prev != self.head:
         return v.prev
     else:
         return None
@@ -110,12 +118,12 @@ def last(self):
 
 \*splice 함수가 매우 빈번하게 사용된다!!!!\*
 
-```
+```python
 def moveAfter(self, a, x): #노드 a를 노드 x 뒤로 이동
-    splice(a, a, x) #a를 떼어내어 x뒤로 붙인 것과 같다
+    self.splice(a, a, x) #a를 떼어내어 x뒤로 붙인 것과 같다
 
 def moveBefore(self, a, x): #노드 a를 노드 x 앞으로 이동
-    splice(a, a, x.prev)
+    self.splice(a, a, x.prev)
 
 def insertAfter(self, x, key): #key값을 갖는 노드를 x뒤에 삽입
     moveAfter(Node(key), x)
@@ -140,7 +148,7 @@ popFront() : head 다음에 있는 노드의 데이터 값 리턴. 빈 리스트
 
 popBack() : head 이전에 있는 노드의 데이터 값 리턴. 빈 리스트면 None
 
-```
+```python
 def remove(self, x):
     if x == None or x == self.head:
         return
@@ -148,8 +156,8 @@ def remove(self, x):
     
 def popFront(self):
     if self.isEmpty(): return None
-    key = head.next.key
-    self.remove(head.next)
+    key = self.head.next.key
+    self.remove(self.head.next)
     return key
     
 def popBack(self):

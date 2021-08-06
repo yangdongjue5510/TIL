@@ -1,3 +1,11 @@
+---
+title: 6.Median of Medians 알고리즘
+date: 2021-07-28 19:42:57
+tags:
+category:
+    - Computer Science
+    - Algorithm
+---
 # MoM(Median of Medians) 알고리즘
 
 퀵셀렉트는 세가지 영역으로 나누는데, 피벗보다 큰 쪽으로 너무 몰리면 수행시간이 길어졌었다.

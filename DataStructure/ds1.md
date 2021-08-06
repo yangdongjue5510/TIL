@@ -1,3 +1,11 @@
+---
+title: 1. 연결리스트
+date: 2021-07-28 15:54:58
+tags:
+category:
+    - Computer Science
+    - Data Structure
+---
 ### **a. 연결리스트 기본 개념**
 
 연결리스트는 노드가 링크에 의해 기차처럼 연결된 순차 자료구조.
@@ -12,7 +20,7 @@
 
 배열과 연결리스트의 차이를 그림으로 파악해보자!
 
-![img](../img/linkedlist.jpeg)
+![img](/img/ds/linkedlist.jpeg)
 
 ### **b. 한방향 연결리스트**
 
@@ -23,7 +31,7 @@
 
 #### b-1. 노드 클래스 구현하기
 
-```
+```python
 class Node:
     def __init__(self, key=None, value=None):
         #노드를 구분하는 key, 필요할 경우 추가 데이터 value
@@ -37,7 +45,7 @@ class Node:
 
 #### b-2. 한방향 연결 리스트 클래스 구현하기
 
-```
+```python
 class SinglyLinkedList:
     def __init__(self):
         self.head = None
@@ -61,7 +69,7 @@ class SinglyLinkedList:
 
 pushFront는 현재 head 앞에 새 노드를 생성해 앞에 삽입한다.
 
-```
+```python
 def pushFront(self, key, value=None):
     new_node = Node(key, value)
     new_node.next = self.head
@@ -71,7 +79,7 @@ def pushFront(self, key, value=None):
 
 pushBack은 마지막 노드의 next 링크가 새로운 노드로 연결되도록 해야한다. 만약 마지막 노드가 없다면(즉 리스트가 비었다면) 새 노드가 리스트의 head가 되어야 한다.
 
-```
+```python
 def pushBack(self, key, value=None):
     new_node = Node(key, value)
     if self.size == 0:
@@ -88,7 +96,7 @@ def pushBack(self, key, value=None):
 
 popFront는 빈 리스트라서 head를 지울 수 없는 경우와 그렇지 않은 경우로 나눠 구현한다.
 
-```
+```python
 def popFront(self):
     if self.size == 0
         return None
@@ -115,7 +123,7 @@ popBack은 마지막 노드를 찾고 지우고 그 전 노드의 링크를 수�
 2.  리스트에 노드가 하나만 있는 경우
 3.  리스트에 두 개 이상의 노드가 있는 경우
 
-```
+```python
 def popBack(self):
     if self.size ==0
         return None
@@ -140,7 +148,7 @@ key 값을 저장한 노드를 찾아 리턴하거나 없으면 None을 반환�
 
 1.  head부터 next 링크를 따라가면서 찾기
     
-    ```
+    ```python
     def search(self, key):
         v = self.head
         while v != None:
@@ -152,7 +160,7 @@ key 값을 저장한 노드를 찾아 리턴하거나 없으면 None을 반환�
     
 2.  for 루프를 이용하는 방법(\_\_iter\_\_(self)에 의해 가능)
     
-    ```
+    ```python
     def search(self, key):
         for v in self:
             if v.key == key:
@@ -169,7 +177,7 @@ key 값을 저장한 노드를 찾아 리턴하거나 없으면 None을 반환�
 2.  노드 v가 head인 경우 -> popFront 호출
 3.  그 외의 경우 -> v의 전 노드 w를 찾은 후 w.next = v.next로 w의 링크 수정
 
-```
+```python
 def remove(self, x):
 		# 노드 x를 제거한 후 True리턴. 제거 실패면 False 리턴
 		pre=None

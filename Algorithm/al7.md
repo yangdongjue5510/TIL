@@ -1,3 +1,11 @@
+---
+title: 7.피보나치
+date: 2021-07-28 19:43:13
+tags:
+category:
+    - Computer Science
+    - Algorithm
+---
 # 피보나치 수
 
 > ### 피보나치 수열이란
@@ -29,7 +37,7 @@ F(0) = 0, F(1) = 1, F(n) = F(n-1) + F(n-2)로 정의되는 수열!
 이때 여러번 곱해주는 연산 power(a, n)로 구해주면, O(logn)이다!
 
 
-```{.python}
+```python
 def fibo_rec(n):
 	if n <= 1: return n
 	return fibo_rec(n-1)+fibo_rec(n-2)

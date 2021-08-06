@@ -1,3 +1,11 @@
+---
+title: 5.독특한탐색
+date: 2021-07-28 19:42:28
+tags:
+category:
+    - Computer Science
+    - Algorithm
+---
 # 특수한 선택 문제
 
 다음과 같은 요구 조건을 가지느 문제들은 선택(Selection)문제라고 보면 된다.

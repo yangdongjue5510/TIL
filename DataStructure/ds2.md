@@ -1,3 +1,11 @@
+---
+title: 2. 배열과리스트
+date: 2021-07-28 19:59:57
+tags:
+category:
+    - Computer Science
+    - Data Structure
+---
 ### **a. 배열(array)**
 
 데이터를 연속적인 메모리 공간에 저장

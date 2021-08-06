@@ -1,10 +1,18 @@
+---
+title: 3.재귀 알고리즘
+date: 2021-07-28 19:38:20
+tags:
+category:
+    - Computer Science
+    - Algorithm
+---
 # 재귀 알고리즘
 
 재귀 알고리즘 = 알고리즘 내부에서 한번 이상 자신의 함수를 호출
 sum(n) = 1+2+..+n
 sum(n) = sum(n-1)+n
 
-```{.python}
+```python
 def sum(n):
     if n==1 : return 1
     return sum(n-1) + n
@@ -28,7 +36,7 @@ sum(3,8) = 3+4+5+6+7+8
          = sum(3,5) + sum(6,8)
          ...
 
-```{.python}
+```python
 def sum(a, b):
     if a == b : return a
     if a>b : return 0
@@ -45,8 +53,8 @@ T(n) = 2*T(n/2)+c
 
 ## reverse 함수 예제
 
-reverse(A) = reverse(A[1:])+A[:1]
+reverse(A) = reverse(A\[1:])+A\[:1]
 즉 T(n) = T(n-1) + c => O(n)
 
-reverse(A, start, stop)= A[strat]와 A[stop-1] 바꾸고, reverse(A, start-1, stop-1)
+reverse(A, start, stop)= A\[strat]와 A\[stop-1] 바꾸고, reverse(A, start-1, stop-1)
 즉 T(n) = T(n-2) + c = T(1)+(n/2)*c =>O(n)

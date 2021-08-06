@@ -1,3 +1,11 @@
+---
+title: 4.일반적인 탐색
+date: 2021-07-28 19:42:14
+tags:
+category:
+    - Computer Science
+    - Algorithm
+---
 # 일반적인 선택 문제
 
 ## n개의 값중 k 번째 작은 수 찾기 - QuickSelction
@@ -9,7 +17,7 @@
 5. #### 만약 A와 M의 원소 갯수 합이 k보다 작을 때는 B에서 (k-A-M)번째 작은 값을 구하면 된다.
 6. #### 나머지 경우는 그냥 p를 반환하면 된다.
 
-```{.python}
+```python
 def quickSelet(L,k):
     #1.
     p=L[0]
