@@ -6,7 +6,7 @@ category:
     - Computer Science
     - Data Structure
 ---
-## 균형이진탐색트로(BST)?
+## 균형이진탐색트리(BST)?
 
 이진트리는 search, insert, delete 연산들이 O(h) 시간이 걸린다는 걸 기억하자.
 
