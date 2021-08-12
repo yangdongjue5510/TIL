@@ -1,3 +1,11 @@
+---
+title: 싱글톤 패턴
+date: 2021-07-29 13:10:06
+tags:
+category:
+    - Java
+    - Design Pattern
+---
 # 싱글톤 패턴 Singleton Pattern
 
 > 싱글톤 패턴은 어떤 클래스(객체)가 유일하게 1개만 존재할 때 사용.  
