@@ -1,19 +1,15 @@
 package Factory;
 
-public class ShoeStore {
-    SimpleNikeFactory factory;
-
-    public ShoeStore(SimpleNikeFactory factory){
-        this.factory = factory;
-    }
+public abstract class ShoeStore {
 
     public Shoes orderShoes(String type) {
         Shoes shoes;
-        shoes = factory.createShoes(type);
+        shoes = createShoes(type);
 
         shoes.prepare();
         shoes.wrap();
         shoes.box();
         return shoes;
     }
+    public abstract Shoes createShoes(String type);
 }

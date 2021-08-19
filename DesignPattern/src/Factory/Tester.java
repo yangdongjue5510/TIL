@@ -2,9 +2,10 @@ package Factory;
 
 public class Tester {
     public static void main(String[] args) {
-        SimpleNikeFactory factory = new SimpleNikeFactory();
-        ShoeStore store1 = new ShoeStore(factory);
-        store1.orderShoes("basketball");
-        store1.orderShoes("football");
+        ShoeStore nikeShoeStore = new NikeShoeStore();
+        ShoeStore adidasShoeStore= new AdidasShoeStore();
+        adidasShoeStore.orderShoes("basketball");
+        System.out.println();
+        nikeShoeStore.orderShoes("football");
     }
 }
