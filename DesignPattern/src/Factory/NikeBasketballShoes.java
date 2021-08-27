@@ -1,12 +1,11 @@
 package Factory;
 
 public class NikeBasketballShoes extends Shoes{
-    public NikeBasketballShoes(){
-        this.modelName = "Nike basketball";
-        this.cushion = "REACT cushion";
-        this.signaturePlayer = "REBRON";
-        this.shoeItem.add("Nike shoe string");
+    ShoeIngredientFactory shoeIngredientFactory;
+    public NikeBasketballShoes(ShoeIngredientFactory shoeIngredientFactory){
+        this.shoeIngredientFactory = shoeIngredientFactory;
     }
+
     @Override
     public void wrap() {
         System.out.println("wrapping Nike basketball shoes");
