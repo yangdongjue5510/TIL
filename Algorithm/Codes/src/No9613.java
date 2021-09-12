@@ -25,7 +25,7 @@ public class No9613{
             int numCase = Integer.parseInt(st.nextToken());
             long result = 0;
             while(numCase!=0){
-                long num = Integer.parseInt(st.nextToken());
+                long num = Long.parseLong(st.nextToken());
                 lst.add(num);
                 numCase--;
             }
