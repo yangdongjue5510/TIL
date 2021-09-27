@@ -1,3 +1,5 @@
+package week3;
+
 import java.util.*;
 import java.io.*;
 public class No9613{

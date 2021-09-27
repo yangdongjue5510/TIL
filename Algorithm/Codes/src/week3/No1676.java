@@ -1,3 +1,5 @@
+package week3;
+
 import java.util.Scanner;
 public class No1676{
     public static void main(String[] args){

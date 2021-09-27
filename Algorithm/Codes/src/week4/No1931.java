@@ -1,3 +1,5 @@
+package week4;
+
 import java.io.*;
 import java.util.*;
 
@@ -32,7 +34,7 @@ public class No1931{
     }
 }
 
-//public class No1931{
+//public class week4.No1931{
 //    public static final long MAX = (long)Math.pow(2,32);
 //    public static void main(String[] args) throws IOException{
 //        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
