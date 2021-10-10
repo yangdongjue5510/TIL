@@ -10,7 +10,7 @@ public class Test {
         koreanDuck.fly();
 
         Chicken koreanChicken = new KoreanChicken();
-        ChickenAdapter adaptedChicken = new ChickenAdapter(koreanChicken);
+        Duck adaptedChicken = new ChickenAdapter(koreanChicken);
         adaptedChicken.quak();
         adaptedChicken.fly();
     }
