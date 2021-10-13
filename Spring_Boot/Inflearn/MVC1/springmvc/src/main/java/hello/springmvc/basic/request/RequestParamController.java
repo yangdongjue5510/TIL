@@ -14,6 +14,23 @@ import java.util.Map;
 @Controller
 public class RequestParamController {
 
+    /*
+    1. 서블릿 활용한 방식
+
+    2. @RequestParam 사용
+    2-1. @RequestParam 단축해서 쓰기(이름이 같아야함.)  *
+    3. @RequestParam 빼버리기 (이름이 같아야함)
+    4. @RequestParam required  *
+    5. @RequestParam defaultValue  *
+    6. @RequestParam 맵으로 전부 받기  *
+
+    모델 어트리뷰트 (request param에만 해당. 바디에는 해당 안됨)
+    7. 모델 선언해서 직접 하나씩 넣기
+    8. @ModelAttribute 선언해서 프로퍼티 검사해서 알아서 넣어주기
+    9. @ModelAttribute 생략하기 *
+     */
+
+
     //서블릿을 활용한 방식
     @RequestMapping("/request-param-v1")
     public void requestParamV1(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -38,10 +55,10 @@ public class RequestParamController {
     @ResponseBody //반환값을 http 응답 메시지에 넣어서 반환!
     @RequestMapping("/request-param-v3")
     public String requestParamV3(
-            @RequestParam("username") String memberName,
-            @RequestParam("age") int memberAge
+            @RequestParam String username,
+            @RequestParam int age
     ){
-        log.info("{} {} ", memberName, memberAge);
+        log.info("{} {} ", username, age);
         return "ok";
     }
 
