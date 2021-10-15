@@ -1,6 +1,9 @@
 package personalstudy.완전탐색;
 import java.io.*;
 import java.util.*;
+/*
+완전탐색 : N개에서 중복허용해서 M개 순서 신경써서 뽑기...
+ */
 public class No15651 {
     static int N;
     static int M;
