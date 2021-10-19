@@ -1,6 +1,9 @@
 package personalstudy.완전탐색;
 import java.io.*;
 import java.util.*;
+/*
+정적 변수를 초기화 시켜주는 단계해주자.
+ */
 public class No14888 {
     static int N;
     static int[] numbers;
