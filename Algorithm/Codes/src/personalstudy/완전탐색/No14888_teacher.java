@@ -1,18 +1,10 @@
 package personalstudy.완전탐색;
+
 import java.io.*;
 import java.util.*;
-/*
-정적 변수를 초기화 시켜주는 단계해주자.
- */
-public class No14888 {
-    static int N;
-    static int[] numbers;
-    static int[] cals = new int[4];
-    static int[] order;
-    static int min = Integer.MAX_VALUE;
-    static int max = Integer.MIN_VALUE;
-
-    static void input() throws IOException{
+import static personalstudy.완전탐색.No14888.*;
+public class No14888_teacher {
+    static void input() throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(bf.readLine());
         numbers = new int[N];
@@ -27,30 +19,26 @@ public class No14888 {
         }
     }
 
-    static int calculate(){
-        int result = numbers[0];
-        for(int i =0 ; i< order.length ; i++){
-            if(order[i] == 0) result = result+numbers[i+1];
-            else if(order[i] == 1) result = result-numbers[i+1];
-            else if(order[i] == 2) result = result*numbers[i+1];
-            else{
-                result = result/numbers[i+1];
-            }
-        }
-        if(result > max) max = result;
-        if(result < min) min = result;
-        return result;
+    static int calculate(int value, int cal, int nextVal){
+        if(cal  == 0) return value+nextVal;
+        if(cal == 1) return value-nextVal;
+        if(cal == 2) return value*nextVal;
+        else return value/nextVal;
     }
 
-
-    static void rec_func(int index){
-        if(index == N-1) calculate();
+    static void rec_func(int index, int num){
+        if(index == N-1) {
+            max = Math.max(max, num);
+            min = Math.min(min, num);
+        }
         else{
             for(int i = 0 ; i < 4 ; i++){
                 if(cals[i]>=1){
                     cals[i]--;
                     order[index] = i;
-                    rec_func(index+1);
+                    int newValue = calculate(num, i, numbers[index+1]);
+                    rec_func(index+1, newValue);
+
                     cals[i]++;
                     order[index]=0;
                 }
@@ -59,7 +47,7 @@ public class No14888 {
     }
     public static void main(String[] args) throws IOException{
         input();
-        rec_func(0);
+        rec_func(0, numbers[0]);
         System.out.println(max);
         System.out.println(min);
     }
