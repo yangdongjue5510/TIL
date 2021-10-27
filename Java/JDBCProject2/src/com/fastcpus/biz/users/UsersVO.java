@@ -1,5 +1,7 @@
 package com.fastcpus.biz.users;
 
+import lombok.Getter;
+
 import java.sql.Date;
 
 public class UsersVO {
