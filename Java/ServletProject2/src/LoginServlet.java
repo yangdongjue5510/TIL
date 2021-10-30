@@ -1,3 +1,6 @@
+import db.UsersDAO;
+import db.UsersVO;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -12,6 +15,29 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
         System.out.println("id : "+ id);
         System.out.println("pw : "+ password);
+
+        UsersVO vo = new UsersVO();
+        vo.setId(id);
+        vo.setPassword(password);
+
+        UsersDAO usersDAO = new UsersDAO();
+        UsersVO user = usersDAO.getUser(vo);
+
+        //화면 네비게이션
+        if(user!= null) {
+            response.sendRedirect("getBoardList.do");
+        }else{
+            response.sendRedirect("login.do");
+        }
+
+//        response.setContentType("text/html;charset=EUC-KR");
+//        PrintWriter out = response.getWriter();
+//        if(user !=null){
+//            out.println("<h1>로그인 성공<h1>");
+//        } else{
+//            out.println("<h1>로그인 실패<h1>");
+//        }
+//        out.close();
     }
 
     @Override
