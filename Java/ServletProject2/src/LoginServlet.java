@@ -25,7 +25,9 @@ public class LoginServlet extends HttpServlet {
 
         //화면 네비게이션
         if(user!= null) {
-            response.sendRedirect("/ServletProject2_war_exploded/board.do/list");
+            request.setAttribute("userName", user.getName());
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/board.do/list");
+            requestDispatcher.forward(request, response);
         }else{
             response.sendRedirect("login.html");
         }

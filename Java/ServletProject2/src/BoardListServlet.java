@@ -31,7 +31,7 @@ public class BoardListServlet extends HttpServlet {
         out.println("<body>");
         out.println("<center>");
         out.println("<h1>게시 글 목록</h1>");
-        out.println("<h3>테스터님 로그인 환영합니다...<a href='logout_proc.jsp'>LOG-OUT</a></h3>");
+        out.println("<h3>"+request.getAttribute("userName")+"님 로그인 환영합니다...<a href='logout_proc.jsp'>LOG-OUT</a></h3>");
         out.println("<!-- 검색 시작 -->");
         out.println("<form action='getBoardList.jsp' method='post'>");
         out.println("<table border='1' cellpadding='0' cellspacing='0' width='700'>");
@@ -60,7 +60,7 @@ public class BoardListServlet extends HttpServlet {
         for(BoardVO board : boardVOList) {
             out.println("<tr>");
             out.println("<td>" + board.getSeq() + "</td>");
-            out.println("<td align='left'><a href='getBoard.jsp'>" + board.getTitle() + "</a></td>");
+            out.println("<td align='left'><a href='../getBoard.do?seq="+board.getSeq()+"'>" + board.getTitle() + "</a></td>");
             out.println("<td>" + board.getWriter() + "</td>");
             out.println("<td>" + board.getRegDate() + "</td>");
             out.println("<td>" + board.getCnt() + "</td>");

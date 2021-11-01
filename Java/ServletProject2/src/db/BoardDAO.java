@@ -76,7 +76,8 @@ public class BoardDAO {
         }
     }
 
-    public void getBoard(BoardVO vo){
+    public BoardVO getBoard(BoardVO vo){
+        BoardVO board = new BoardVO();
         try{
             conn = JDBCUtil.getConnection();
 
@@ -86,18 +87,20 @@ public class BoardDAO {
 
             //출력
             while(rs.next()) {//커서 이동(첫줄은 데이터가 없는 헤더) 읽을 데이터가 있으면 true 없으면 false
-                System.out.print(rs.getInt("SEQ") + " : ");
-                System.out.print(rs.getString("TITLE") + " : ");
-                System.out.print(rs.getString("WRITER") + " : ");
-                System.out.print(rs.getString("CONTENT") + " : ");
-                System.out.print(rs.getDate("REQDATE") + " : ");
-                System.out.println(rs.getInt("CNT"));
+                board.setSeq(rs.getInt("SEQ"));
+                board.setTitle(rs.getString("TITLE"));
+                board.setWriter(rs.getString("WRITER"));
+                board.setContent(rs.getString("CONTENT"));
+                board.setRegDate(rs.getDate("REQDATE"));
+                board.setCnt(rs.getInt("CNT"));
             }
+            System.out.println("getBoard done.");
         } catch (Exception e) {
             e.printStackTrace();
         } finally{
             JDBCUtil.close(rs, stmt, conn);
         }
+        return board;
     }
 
     public List<BoardVO> getBoardList(BoardVO vo){
@@ -117,6 +120,7 @@ public class BoardDAO {
                 board.setRegDate(rs.getDate("REQDATE"));
                 boardVOList.add(board);
             }
+            System.out.println("getBoardList done.");
         } catch (Exception e) {
             e.printStackTrace();
         } finally{

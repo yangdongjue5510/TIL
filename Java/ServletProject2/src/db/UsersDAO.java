@@ -31,6 +31,7 @@ public class UsersDAO {
             stmt.setString(4, vo.getRole());
             int count = stmt.executeUpdate();
             System.out.println(count+"건 처리됐습니다.");
+            System.out.println("insertUser done.");
         }catch(SQLException e){
             e.printStackTrace();
         } finally {
@@ -54,9 +55,8 @@ public class UsersDAO {
                 user.setRegDate(rs.getDate("REGDATE"));
                 user.setRole(rs.getString("ROLE"));
             }
+            System.out.println("getUser done.");
         } catch (SQLException e) {
-            e.printStackTrace();
-        }catch (NullPointerException e){
             e.printStackTrace();
         } finally {
             JDBCUtil.close(rs, stmt, conn);
@@ -80,6 +80,7 @@ public class UsersDAO {
                 user.setId(rs.getString("ROLE"));
                 usersList.add(user);
             }
+            System.out.println("getUserList done.");
         }catch(SQLException e){
             e.printStackTrace();
         } finally {
@@ -97,6 +98,7 @@ public class UsersDAO {
 
             int count = stmt.executeUpdate();
             System.out.println(count+"건 처리됐습니다.");
+            System.out.println("updateUserById done");
         } catch(SQLException e){
             e.printStackTrace();
         }finally {
@@ -111,6 +113,7 @@ public class UsersDAO {
             stmt.setString(1, vo.getId());
             int count = stmt.executeUpdate();
             System.out.println(count + "건 삭제되었습니다.");
+            System.out.println("deleteUserById done.");
         } catch(SQLException e){
             e.printStackTrace();
         }finally {
