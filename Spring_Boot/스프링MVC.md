@@ -140,9 +140,12 @@ HttpServletRequest의 getParameter()로 두가지 요청 파라미터 처리 가
 ### 요청 파라미터 - @ModelAttribute
 
 파라미터를 받아서 그걸 저장할 수 있는 객체에 넣어주는 역할을 한다.
+모델에 객체를 추가하는 역할도 한다.
 
 데이터를 받을 수 있는 객체를 선언하고 메서드의 파라미터로 넣어놓으면?
 스프링이 알아서 객체 만들어서 변수에 할당하고 setter로 초기화.
+
+이때 모델에 저장되는 이름은 클래스 이름의 **첫 대문자를 소문자로 바꾼다.**
 
 
 
@@ -206,9 +209,9 @@ Jackson 라이브러리의 objectMapper 객체를 통해 json을 담을 수 있�
 
 > **요약**
 
-@RequestBody : Json -> 메시지 컨버터 -> 객체
+**@RequestBody : Json -> 메시지 컨버터 -> 객체**
 
-@ResonseBody : 객체 -> 메시지 컨버터 -> Json
+**@ResonseBody : 객체 -> 메시지 컨버터 -> Json**
 
 
 
@@ -325,3 +328,35 @@ HandlerMethodReturnValueHandler가 응답값을 변환하고 처리한다.
 @RequestBody, @ResponseBody, HttpEntity 모두 적절하게 문자열이나 json으로 변환 가능해야 하므로...!
 
 인자로 뭐가 오던, 반환값으로 뭐가 오던 적절한 데이터로 바꿔서 전달한다!
+
+
+
+### @RequiredArgsConstructor
+
+final 붙은 멤버 변수를 초기화하는 생성자를 만들어주는 롬복.
+
+컨트롤러에 @Autowired 대신 객체를 주입하고자 할 때 사용 가능하다.
+
+주입하고자하는 변수 하나를 final 처리하면, 스프링에서 @RequiredArgsConstructor로 생긴 생성자를 통해 해당 변수에 객체를 주입시킨다.
+**이때 final 멤버 변수가 하나일 때만 유효하다.(???)**
+
+
+
+### Redirect
+
+```java
+"redirect:/basic/items/{itemId}"
+```
+
+redirect: ~~~라고 리턴하면 리다이렉트를 쉽게 할 수 있음.
+@PathVariable로 가져온 변수도 적용 가능.
+
+### RedirectAttributes
+
+리다이렉트에 속성들을 사용해보자.
+URL 인코딩도 지원하고 PathVariable도 지원한다!
+
+컨트롤러에 RedirectAttirbutes 를 추가해지고,
+addAttribute("key", value) 이런 식으로 추가한다.
+
+이때 URL에 pathVariable로 먼저 바인딩하고, 남은건 쿼리파라미터로 처리한다!
