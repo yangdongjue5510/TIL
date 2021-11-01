@@ -14,13 +14,10 @@ public class JDBCUtil {
             //JDBC 2단계 : Connection 연결(획득) (고속도로)
 //            Class.forName("org.h2.Driver");
             conn = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/test", "sa", "");
-            System.out.println("is it working??");
 
         } catch(Exception e){
             e.printStackTrace();
         }
-        if(conn==null) System.out.println(conn);
-        else System.out.println(conn);
         return conn;
     }
 

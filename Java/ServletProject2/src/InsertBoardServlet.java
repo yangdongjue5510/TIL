@@ -21,8 +21,13 @@ public class InsertBoardServlet extends HttpServlet {
         vo.setTitle(title);
         vo.setWriter(writer);
         vo.setContent(content);
-
+        if(title == "" || writer =="" || content == "") {
+            response.sendRedirect("insertBoard.html");
+            return;
+        }
         BoardDAO boardDAO = new BoardDAO();
-        boardDAO.insertBoard(vo);
+        BoardVO board = boardDAO.insertBoard(vo);
+        response.sendRedirect("/ServletProject2_war_exploded/board.do/list");
+
     }
 }

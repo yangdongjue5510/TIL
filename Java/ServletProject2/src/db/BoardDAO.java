@@ -25,7 +25,7 @@ public class BoardDAO {
 
 
     //BOARD 관련 CRUD create read update delete
-    public void insertBoard(BoardVO vo){
+    public BoardVO insertBoard(BoardVO vo){
         try{
             conn = JDBCUtil.getConnection();
             stmt = conn.prepareStatement(BOARD_INSERT);
@@ -39,6 +39,7 @@ public class BoardDAO {
         } finally {
             JDBCUtil.close(stmt, conn);
         }
+        return vo;
     }
 
     public void updateBoard(BoardVO vo){

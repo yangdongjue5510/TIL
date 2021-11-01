@@ -11,6 +11,6 @@
     <title>$Title$</title>
   </head>
   <body>
-  $END$
+  <a href="login.html" target="self">login</a>
   </body>
 </html>
