@@ -27,7 +27,8 @@ public class InsertBoardServlet extends HttpServlet {
         }
         BoardDAO boardDAO = new BoardDAO();
         BoardVO board = boardDAO.insertBoard(vo);
-        response.sendRedirect("/ServletProject2_war_exploded/board.do/list");
+        ServletUtil.forward(request, response, "/board.do/list");
+        //response.sendRedirect("/ServletProject2_war_exploded/board.do/list");
 
     }
 }

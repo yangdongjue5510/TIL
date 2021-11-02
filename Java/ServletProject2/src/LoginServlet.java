@@ -29,7 +29,8 @@ public class LoginServlet extends HttpServlet {
             RequestDispatcher requestDispatcher = request.getRequestDispatcher("/board.do/list");
             requestDispatcher.forward(request, response);
         }else{
-            response.sendRedirect("login.html");
+            ServletUtil.forward(request,response,"/login.html");
+            //response.sendRedirect("login.html");
         }
 
 //        response.setContentType("text/html;charset=EUC-KR");

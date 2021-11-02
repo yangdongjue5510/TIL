@@ -60,7 +60,7 @@ public class BoardListServlet extends HttpServlet {
         for(BoardVO board : boardVOList) {
             out.println("<tr>");
             out.println("<td>" + board.getSeq() + "</td>");
-            out.println("<td align='left'><a href='../getBoard.do?seq="+board.getSeq()+"'>" + board.getTitle() + "</a></td>");
+            out.println("<td align='left'><a href='getBoard.do?seq="+board.getSeq()+"'>" + board.getTitle() + "</a></td>");
             out.println("<td>" + board.getWriter() + "</td>");
             out.println("<td>" + board.getRegDate() + "</td>");
             out.println("<td>" + board.getCnt() + "</td>");
@@ -69,7 +69,7 @@ public class BoardListServlet extends HttpServlet {
 
         out.println("</table>");
         out.println("<br>");
-        out.println("<a href='../insertBoard.html'>새글 등록</a>");
+        out.println("<a href='insertBoard.html'>새글 등록</a>");
         out.println("</center>");
         out.println("</body>");
         out.println("</html>");
