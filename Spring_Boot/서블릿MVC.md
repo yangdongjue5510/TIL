@@ -1,0 +1,170 @@
+## 엔터프라이즈 애플리케이션
+
+대규모 데이터 관리, 비즈니스 프로세스 지원 및 자동화
+
+보안, 안정성, 확장성 지원, 다수 사용자 접근 처리
+
+데이터 입출력을 위한 사용자 인터페이스 지원
+
+### Java EE
+
+자바로 엔터프라이즈 애플리케이션을 구현할 수 있게만듬.
+
+자바를 이용한 서버측 개발을 위한 플랫폼. 이걸로 제품을 구현하면 WAS.
+
+### Web Server
+
+HTTP 요청을 받아 **정적인 콘텐츠**를 제공하는 프로그램(apache, Nginx)
+정적인 콘텐츠는 WAS가 아닌 Web Server가 혼자 처리 한다.
+동적인 콘텐츠는 WAS가 하도록 보내주고, WAS가 처리한 걸 웹서버가 받아 클라이언트에게 전달.
+
+### WAS(Web Application Server)
+
+다양한 로직 처리를 요구하는 **동적인 컨텐츠**를 제공하기 위한 어플리케이션 서버
+웹 컨테이너나 서블릿 컨테이너로 불리기도 한다.
+컨테이너는 뷰템플릿이나 서블릿을 실행시킬 수 있는 소프트웨어를 말함.
+
+## Java Servlet
+
+자바를 사용해서 웹 페이지를 동적으로 생성하는 도구.
+
+### Servlet Container
+
+Servlet의 생명 주기를 관리.
+
+톰캣이 대표적인 예시.
+java파일을 class로 만들고 메모리에 올려 Servlet객체를 만듬.
+
+### ServletContext
+
+톰캣을 실행하면서 생성.
+
+서블릿들이 서블릿 컨테이너와 통신하기 위해 존재.
+하나의 웹 어플리케이션 내에서 서블릿들을 관리하고 정보공유를 도움.
+
+### Servlet Filter
+
+요청을 서블릿에게 전달하기 전 / 서블릿이 처리한 응답을 보내기 전 처리하는 역할
+
+특정 url에 매핑된 서블릿을 실행하기 전에 수행.
+
+**생성자 - init - doFilter - destroy** 흐름으로 진행된다.
+
+이때 doFilter 메소드는 서블릿요청 객체, 서블릿응답 객체, 필터체인 객체를 가지는데,
+필터체인 객체의 doFilter메소드에 요청, 응답 객체를 넣어 호출하여 다음 필터 혹은 서블릿을 실행하도록 해야 한다.
+
+> 필터를 통해 서블릿 수행 처리 속도를 체크하는 필터(web.xml에 추가하는 방식도 있다.)
+
+```java
+@WebFilter(urlPatterns = "*.do")
+public class TimeCheckFilter implements Filter {
+
+    public TimeCheckFilter() { 
+        System.out.println("===> TimeCheckFilter called");
+    }
+    
+	public void init(FilterConfig fConfig) throws ServletException {}                              
+
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
+		long startTime = System.currentTimeMillis();
+
+		chain.doFilter(request, response);    
+		
+		long endTime = System.currentTimeMillis();
+		System.out.println(path + " time consumed : " + (endTime - startTime) + "(ms)sec");
+	}
+
+	public void destroy() {	}
+
+}
+```
+
+### Servlet Listener
+
+특정 이벤트가 발생하면 원하는 로직을 실행하도록 돕는 역할.
+
+클래스가 특정 리스너 인터페이스를 구현해서 작동.
+
+필터는 클라이언트의 요청에 따라 서블릿을 실행하기 전에 작동하는 반면,
+리스너는 클라이언트와 상관없이 특정 이벤트가 작동하는 지에만 관심있다.
+
+> 서블릿 컨텍스트리스너를 구현한 경우.
+
+```java
+@WebListener
+public class ServletEngineListener implements ServletContextListener {
+
+    public ServletEngineListener() {
+        System.out.println("===> ServletEngineListener created");
+    }
+
+    public void contextInitialized(ServletContextEvent sce)  { 
+    	System.out.println("---> contextInitialized() called");
+    }
+    
+    public void contextDestroyed(ServletContextEvent sce)  { 
+    	System.out.println("---> contextDestroyed() destroyed");
+    }	
+}
+```
+
+### Servlet parmeter
+
+#### init-param
+
+특정 서블릿이나 필터에서만 쓰이는 파라미터.
+키 : 밸류 형태로 사용된다.
+
+특히 필터에서는 FilterConfig에서 init 파라미터를 가져올 수 있다.
+
+> 특정 url에서는 인코딩 방식을 다르게 하는 필터 예시.
+
+```java
+@WebFilter(filterName = "InsertBoardCharacterEncodingFilter",
+        initParams = @WebInitParam(name = "encoding", value = "UTF-8"))
+public class InsertBoardCharacterEncodingFilter implements Filter {
+    private String boardEncoding;
+		
+  	...
+      
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        boardEncoding = filterConfig.getInitParameter("encoding");
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+        System.out.println("set CharEncoding : "+boardEncoding);
+        servletRequest.setCharacterEncoding(boardEncoding);
+        filterChain.doFilter(servletRequest,servletResponse);
+    }
+  
+		...
+}
+
+```
+
+#### context-param
+
+Init-param과는 달리 모든 서블릿에 적용되는 파라미터.
+
+web.xml에 추가하는 방식으로 구현하자.
+
+```xml
+    <context-param>
+        <param-name>encoding</param-name>
+        <param-value>EUC-KR</param-value>
+    </context-param>
+```
+
+서블릿에서 불러올 때는 서블릿컨텍스트를 가져와서 호출해야 한다.
+
+```java
+	...
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { 
+  	ServletContext sc = getServletContext(); 
+  	String boardEncoding = sc.getInitParameter("encoding");
+  }
+```
+
