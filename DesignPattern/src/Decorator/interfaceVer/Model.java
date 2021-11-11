@@ -1,4 +1,4 @@
-package Decorator.study;
+package Decorator.interfaceVer;
 
 public interface Model {
     void runway();
