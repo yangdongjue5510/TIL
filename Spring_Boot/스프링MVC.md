@@ -147,6 +147,23 @@ HttpServletRequest의 getParameter()로 두가지 요청 파라미터 처리 가
 
 이때 모델에 저장되는 이름은 클래스 이름의 **첫 대문자를 소문자로 바꾼다.**
 
+### @ModelAttribute("이름")
+
+컨트롤러에서 중복적으로 모델에 추가해줘야하는 경우 사용할 수 있다.
+
+```java
+@ModelAttribute("regions")
+public Map<String, String> regions() {
+ Map<String, String> regions = new LinkedHashMap<>();
+ regions.put("SEOUL", "서울");
+ regions.put("BUSAN", "부산");
+ regions.put("JEJU", "제주");
+ return regions;
+}
+```
+
+이런 메서드를 컨트롤러에 선언하면 모델에 regions 속성이 자동으로 추가된다.
+
 
 
 > ### 스프링 MVC 파라미터에 규칙
