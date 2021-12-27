@@ -118,6 +118,167 @@ th:classappend는 클래스에 다른 클래스를 추가할 수 있다. 이때 
 
 ## BindingResult
 
-입력된 값들을 모델과 바인딩한 결과. 에러 결과를 가지고 있다.
+입력된 값들을 모델과 바인딩한 결과. 에러 결과를 가지고 있다.(반드시 검증 대상 바로 뒤에 와야한다. 자동으로 모델에 등록된다.)
 
-BindingResult가 있으면 ModelAttribute 데이터 바인딩 시 오류가 발생해도 컨트롤러가 작동된다.(없으면 예외발생.)
+BindingResult가 있으면 ModelAttribute 데이터 바인딩 시 오류가 발생해도 컨트롤러가 작동된다.(없으면 400오류 발생.)
+
+> FieldError와 ObjectError
+
+객체의 특정 필드가 문제가 있는 경우는 FieldError를 사용하고,
+특정 필드 문제를 넘어서는 문제는 ObjectError를 사용한다.
+
+#### 타임리프에서 쉽게 BindingResult 활용하기
+
+`#fields` : 검증된 오류에 접근할 수 있다.
+
+```html
+<div th:if="${#fields.hasGlobalErrors()}">
+ <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">글로벌 오류 메시지</p>
+ </div>
+```
+
+`th:errors` : 해당 필드에 오류가 있으면 태그를 출력 (th:if의 편의 버전.)
+
+```html
+<div class="field-error" th:errors="*{price}">
+ 	가격 오류
+</div>
+```
+
+`th:errorclass` : th:field에 저장한 필드에 오류가 있으면 class 정보를 추가
+
+```html
+<input type="text" id="quantity" th:field="*{quantity}"
+       th:errorclass="field-error" class="form-control"
+       placeholder="수량을 입력하세요">
+```
+
+#### 타임리프에서 글로벌 에러, 필드 에러 처리
+
+```html
+<div th:if="${#fields.hasGlobalErrors()}">
+ <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메시지</p>
+</div>
+
+
+<input type="text" id="itemName" th:field="*{itemName}" th:errorclass="field-error" class="form-control" placeholder="이름을 입력하세요">
+<div class="field-error" th:errors="*{itemName}">
+ 상품명 오류
+</div>
+```
+
+### BindingResult에 검증 오류 추가하는 방법
+
+1. @ModelAttirbute에 바인딩 실패해서 필드에러를 자동으로 추가
+2. 개발자가 직접 넣기
+   bindingResult.addError(new FieldError(...)) 혹은 addError(new ObjectError(...))
+   bindingResult.rejectValue(필드명, 메시지코드, 메시지매개변수, 기본메시지) 혹은 reject(메시지코드, 메시지매개변수, 기본메시지)
+3. Validator 사용.
+
+
+
+## 오류코드 축약법
+
+`new fieldError()` 를 할 땐 메시지 코드를 전부 작성해야 한다. 하지만 `rejectValue()` 를 사용할 땐 축약해도 된다.
+
+메시지 코드는 range.item.price 처럼 자세히 쓸 수 있고, range라고 쓸 수 있다.
+단순하면 여러 곳에 쓰일 수 있도록 작성하고, 자세하면 그 케이스에 적용되도록 작성한다.
+
+reject는 메시지코드리졸버를 사용한다.
+
+MessageCodeResolver가 검증 오류를 토대로 메시지 코드를 만든다.
+여러 코드들을 우선순위로 만들어서 해당 코드가 존재하면 사용하는 방식이다.
+
+객체 오류
+
+1. 코드.객체이름
+2. 코드
+
+필드 오류
+
+1. 코드.객체이름.필드이름
+2. 코드.필드
+3. 코드.필드의 타입(Java.lang.String같은거)
+4. 코드
+
+메시지 코드는 구체적인 것을 먼저 작성하고 덜 구체적인 것을 나중에 작성한다.
+
+
+
+> ValidationUtils
+
+ValidationUtils.rejectIfEmptyOrWhitespace(bindingResult, "itemName", "code"); 이런식으로 쓰면 간단한건 처리.
+
+
+
+### Validator 분리
+
+스프링에서 다음 인터페이스를 제공한다.
+
+```java
+public interface Validator {
+	boolean supports(Class<?> clazz);
+	void validate(Object target, Errors errors);
+}
+```
+
+이제 검증 로직을 따로 분리해서 만들어보자
+
+```java
+@Component
+public class ItemValidator implements Validator {
+	@Override
+  public boolean supports(Class<?> clazz) {
+    return Item.class.isAssignableFrom(clazz);
+  }
+  @Override
+  public void validate(Object target, Errors errors) {
+    Item item = (Item) target;
+    //로직실행. errors.reject() or errors.rejectValue()
+  }
+}
+```
+
+이걸 컨트롤러에서 의존 주입해서 사용하면 된다.
+
+#### WebDataBinder 사용하기
+
+스프링의 파라미터 바인딩을 담당하는 WebDataBinder에게 Validator를 전달해주면 바인딩하면서 검증도 한다.
+
+```java
+@InitBinder
+public void init(WebDataBinder dataBinder) {
+  log.info("init binder {}", dataBinder);
+  dataBinder.addValidators(itemValidator);
+}
+```
+
+이렇게 WebDataBinder에 validator를 추가해주면, 해당 클래스에서 검증을 사용할 수 있다.
+
+컨트롤러에서 검증을 사용하려면 다음 같이 @Validated를 사용해야 한다.
+
+```java
+@PostMapping("/add")
+public String addItemV6(@Validated @ModelAttribute Item item, BindingResult bindingResult) {
+```
+
+@Validated가 붙으면 Item을 검증하는 validator를 WebDataBinder에서 찾는다.
+
+
+
+> 글로벌하게 등록하기
+
+```java
+@SpringBootApplication
+public class ItemServiceApplication implements WebMvcConfigurer {
+  public static void main(String[] args) {
+    SpringApplication.run(ItemServiceApplication.class, args);
+  }
+  @Override
+  public Validator getValidator() {
+    return new ItemValidator();
+  }
+}
+```
+
+이렇게 하면 각 클래스에 @InitBinder를 제거해도 @Validated를 사용해서 검증할 수 있다.
