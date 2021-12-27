@@ -86,3 +86,38 @@ public class MessageSourceTest {
 
 검증은 정보를 post했을 때 유효하지 않으면, 유효하지 않은 폼 데이터와 에러메세지를 모델에 담아 다시 폼을 입력할 수 있도록 한다.
 
+일단 뷰와 관련되서 간단히 알아야 할 내용이다.
+
+> Safe Navigation Operator (스프링 EL 제공 문법.)
+
+객체에 접근하려하는데 그 객체가 null이면 nullPointerException이 발생한다.
+
+```html
+<div th:if="${errors.containsKey('globalError')}">
+ <p class="field-error" th:text="${errors['globalError']}">전체 오류 메시지</p>
+</div>
+```
+
+만약 여기서 errors가 null이면 nullPointerException이 발생한다.
+
+Safe Navigiation Operator는 이런 예외대신 null을 반환하도록 하는 문법이다.
+
+```html
+<div th:if="${errors?.containsKey('globalError')}">
+ <p class="field-error" th:text="${errors['globalError']}">전체 오류 메시지</p>
+</div>
+```
+
+> th:classappend
+
+```html
+<input type="text" th:classappend="${errors?.containsKey('itemName')} ? 'fielderror' : _" class="form-control">
+```
+
+th:classappend는 클래스에 다른 클래스를 추가할 수 있다. 이때 _는 아무것도 더하지 않겠다는 의미다.
+
+## BindingResult
+
+입력된 값들을 모델과 바인딩한 결과. 에러 결과를 가지고 있다.
+
+BindingResult가 있으면 ModelAttribute 데이터 바인딩 시 오류가 발생해도 컨트롤러가 작동된다.(없으면 예외발생.)
